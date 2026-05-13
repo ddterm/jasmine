@@ -9,12 +9,19 @@ describe('Global error handling (integration)', function() {
   let env;
 
   beforeEach(function() {
+    if (
+      typeof addEventListener === 'undefined' &&
+      typeof process === 'undefined'
+    ) {
+      pending('Global error handling is not available in this environment');
+    }
+
     specHelpers.registerIntegrationMatchers();
     env = new privateUnderTest.Env();
   });
 
   afterEach(function() {
-    env.cleanup_();
+    env?.cleanup_();
   });
 
   function mockGlobal() {
