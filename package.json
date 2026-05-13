@@ -17,6 +17,7 @@
     "lint": "eslint \"src/**/*.js\" \"spec/**/*.js\" && prettier --check \"src/**/*.js\" \"spec/**/*.js\"",
     "test": "node scripts/runSpecsInNode.js && npm run lint",
     "test:parallel": "node scripts/runSpecsInParallel.js",
+    "test:gjs": "gjs -m scripts/runSpecsInGJS.js",
     "cleanup": "prettier --write \"src/**/*.js\" \"spec/**/*.js\"",
     "build": "node scripts/buildDistribution.js",
     "buildStandaloneDist": "node scripts/buildStandaloneDist.js",
