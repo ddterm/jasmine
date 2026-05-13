@@ -2510,6 +2510,13 @@ describe('Env integration', function() {
   });
 
   it('should associate errors thrown from async code with the correct runnable', async function() {
+    if (
+      typeof addEventListener === 'undefined' &&
+      typeof process === 'undefined'
+    ) {
+      pending('Global error handling is not available in this environment');
+    }
+
     const reporter = jasmine.createSpyObj('fakeReport', [
       'suiteDone',
       'specDone'
