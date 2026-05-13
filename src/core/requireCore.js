@@ -12,7 +12,7 @@ const getJasmineRequireObj = (function() {
     jasmineRequire = exports;
   } else {
     // Browser
-    jasmineRequire = {};
+    jasmineRequire = globalThis.getJasmineRequireObj?.() ?? {};
   }
 
   function getJasmineRequire() {

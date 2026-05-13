@@ -54,7 +54,11 @@ export default defineConfig([{
     "no-console": "error",
   },
 }], [{
-  files: ["scripts/lib/structuredClone.rollup.js"],
+  files: [
+    "scripts/lib/structuredClone.rollup.js",
+    "spec/helpers/gjsDefineJasmineUnderTest.js",
+    "scripts/runSpecsInGJS.js",
+  ],
   languageOptions: {
     sourceType: "module",
   }
