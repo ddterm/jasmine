@@ -857,6 +857,10 @@ describe('Clock (acceptance)', function() {
     });
 
     it('speeds up the execution of the timers in all browsers', async () => {
+      if (typeof performance === 'undefined') {
+        pending('This test requires "window.performance" property');
+      }
+
       const startTimeMs = performance.now() / 1000;
       await new Promise(resolve => clock.setTimeout(resolve, 5000));
       await new Promise(resolve => clock.setTimeout(resolve, 5000));
