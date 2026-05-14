@@ -1,5 +1,5 @@
 describe('Global error handling (integration)', function() {
-  const isBrowser = typeof window !== 'undefined';
+  const isBrowser = typeof document !== 'undefined';
   const queueMicrotask =
     globalThis.queueMicrotask ??
     function(fn) {

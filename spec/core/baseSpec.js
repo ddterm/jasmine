@@ -11,7 +11,7 @@ describe('base helpers', function() {
     });
 
     it('returns true for an Error that originated from another frame', function() {
-      if (typeof window === 'undefined') {
+      if (typeof document === 'undefined') {
         pending('This test only runs in browsers.');
       }
 
