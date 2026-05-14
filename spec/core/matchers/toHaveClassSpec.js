@@ -1,4 +1,10 @@
 describe('toHaveClass', function() {
+  beforeEach(function() {
+    if (!specHelpers.domHelpers) {
+      pending('This test requires DOM helpers');
+    }
+  });
+
   it('fails for a DOM element that lacks the expected class', function() {
     const matcher = privateUnderTest.matchers.toHaveClass();
     const result = matcher.compare(
