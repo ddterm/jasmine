@@ -4,9 +4,10 @@ const glob = require('glob');
 const ejs = require('ejs');
 const cssUrlEmbed = require('css-url-embed');
 
-function buildDistribution() {
+async function buildDistribution() {
   compileSass();
   embedCssAssets();
+  await rollupStructuredClone();
   concatFiles();
 }
 
@@ -27,6 +28,44 @@ function compileSass() {
   const output = sass.compile('src/html/jasmine.scss');
   fs.writeFileSync('lib/jasmine-core/jasmine.css', output.css,
     {encoding: 'utf8'});
+}
+
+async function rollupStructuredClone() {
+  const path = require('path');
+  const { rollup } = require('rollup');
+  const { nodeResolve } = require('@rollup/plugin-node-resolve');
+  const prettier = require('prettier');
+
+  const structuredClonePath = require.resolve('@ungap/structured-clone');
+  const licensePath = path.resolve(structuredClonePath, '../../LICENSE');
+  const license = fs.readFileSync(licensePath, 'utf8');
+
+  const bundle = await rollup({
+    input: 'scripts/lib/structuredClone.rollup.js',
+    external: [],
+    plugins: [nodeResolve()],
+  });
+
+  const { output } = await bundle.generate({
+    format: 'iife',
+    indent: '  ',
+    generatedCode: {
+      constBindings: true,
+    },
+    banner: `/*\n * ${license.replace(/\n/g, '\n * ')}\n*/`,
+  });
+
+  await bundle.close();
+
+  const text = output.map(chunk => chunk.code).join('');
+  const outPath = 'src/core/structuredClone.js';
+  const options = await prettier.resolveConfig(outPath);
+  const formatted = await prettier.format(text, {
+    ...options,
+    filepath: outPath,
+  });
+
+  fs.writeFileSync(outPath, formatted);
 }
 
 function concatFiles() {
