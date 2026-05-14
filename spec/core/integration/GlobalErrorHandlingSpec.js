@@ -1,5 +1,11 @@
 describe('Global error handling (integration)', function() {
   const isBrowser = typeof window !== 'undefined';
+  const queueMicrotask =
+    globalThis.queueMicrotask ??
+    function(fn) {
+      Promise.resolve().then(fn);
+    };
+
   let env;
 
   beforeEach(function() {
