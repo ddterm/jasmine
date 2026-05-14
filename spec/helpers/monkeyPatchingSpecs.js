@@ -4,12 +4,19 @@ globalThis.isNonMonkeyPatchableClass = function(ctor, makeInstance) {
       const existing = ctor.prototype;
 
       try {
-        ctor.prototype = {};
+        try {
+          ctor.prototype = {};
+        } catch (e) {
+          expect(e).toBeInstanceOf(TypeError);
+        }
+
         expect(ctor.prototype).toBe(existing);
       } finally {
         // This will be a no-op if the test passed, but will prevent state
         // leakage if it failed.
-        ctor.prototype = existing;
+        if (ctor.prototype !== existing) {
+          ctor.prototype = existing;
+        }
       }
     });
 
@@ -35,14 +42,21 @@ globalThis.isNonMonkeyPatchableClass = function(ctor, makeInstance) {
         const existingValue = ctor.prototype[k];
 
         try {
-          ctor.prototype[k] = {};
+          try {
+            ctor.prototype[k] = {};
+          } catch (e) {
+            expect(e).toBeInstanceOf(TypeError);
+          }
+
           expect(ctor.prototype[k])
             .withContext(k)
             .toBe(existingValue);
         } finally {
           // This will be a no-op if the test passed, but will prevent state
           // leakage if it failed.
-          ctor.prototype[k] = existingValue;
+          if (ctor.prototype[k] !== existingValue) {
+            ctor.prototype[k] = existingValue;
+          }
         }
       }
 
@@ -55,7 +69,13 @@ globalThis.isNonMonkeyPatchableClass = function(ctor, makeInstance) {
 
       for (const k of Object.getOwnPropertyNames(ctor.prototype)) {
         any = true;
-        instance[k] = {};
+
+        try {
+          instance[k] = {};
+        } catch (e) {
+          expect(e).toBeInstanceOf(TypeError);
+        }
+
         expect(instance[k])
           .withContext(k)
           .toBe(ctor.prototype[k]);
