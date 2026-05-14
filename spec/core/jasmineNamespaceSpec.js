@@ -33,12 +33,19 @@ describe('The jasmine namespace', function() {
           const existingVal = jasmineUnderTest[key];
 
           try {
-            jasmineUnderTest[key] = 'monkey patch';
+            try {
+              jasmineUnderTest[key] = 'monkey patch';
+            } catch (e) {
+              expect(e).toBeInstanceOf(TypeError);
+            }
+
             expect(jasmineUnderTest[key]).toBe(existingVal);
           } finally {
             // This will be a no-op if the test passed, but will prevent state
             // leakage if it failed.
-            jasmineUnderTest[key] = existingVal;
+            if (jasmineUnderTest[key] !== existingVal) {
+              jasmineUnderTest[key] = existingVal;
+            }
           }
         });
       }
