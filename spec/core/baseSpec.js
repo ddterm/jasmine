@@ -69,6 +69,10 @@ describe('base helpers', function() {
 
   describe('isURL', function() {
     it('returns true when the object is a URL', function() {
+      if (typeof URL === 'undefined') {
+        pending('URL is not available on this platform');
+      }
+
       expect(privateUnderTest.isURL(new URL('http://localhost/'))).toBe(true);
     });
 

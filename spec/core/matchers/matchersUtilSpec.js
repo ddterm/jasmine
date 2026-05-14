@@ -662,6 +662,10 @@ describe('matchersUtil', function() {
     });
 
     it('passes when comparing two identical URLs', function() {
+      if (typeof URL === 'undefined') {
+        pending('URL is not available on this platform');
+      }
+
       const matchersUtil = new privateUnderTest.MatchersUtil();
 
       expect(
@@ -673,6 +677,10 @@ describe('matchersUtil', function() {
     });
 
     it('fails when comparing two different URLs', function() {
+      if (typeof URL === 'undefined') {
+        pending('URL is not available on this platform');
+      }
+
       const matchersUtil = new privateUnderTest.MatchersUtil();
       const url1 = new URL('http://localhost/1');
 
