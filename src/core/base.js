@@ -177,13 +177,19 @@ getJasmineRequireObj().base = function(j$, private$, jasmineGlobal) {
     );
   };
 
-  private$.isURL = function(obj) {
-    return (
-      obj !== null &&
-      typeof obj !== 'undefined' &&
-      obj.constructor === jasmineGlobal.URL
-    );
-  };
+  if (jasmineGlobal.URL) {
+    private$.isURL = function(obj) {
+      return (
+        obj !== null &&
+        typeof obj !== 'undefined' &&
+        obj.constructor === jasmineGlobal.URL
+      );
+    };
+  } else {
+    private$.isURL = function(obj) {
+      return false;
+    };
+  }
 
   private$.isIterable = function(value) {
     return value && !!value[Symbol.iterator];
