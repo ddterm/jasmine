@@ -61,7 +61,7 @@ getJasmineRequireObj().ReportDispatcher = function(j$, private$) {
         return;
       }
 
-      const thisEvent = structuredClone(event);
+      const thisEvent = private$.structuredClone(event);
       if (fn.length <= 1) {
         fns.push({
           fn: function() {

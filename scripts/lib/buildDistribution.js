@@ -4,9 +4,10 @@ const glob = require('glob');
 const ejs = require('ejs');
 const cssUrlEmbed = require('css-url-embed');
 
-function buildDistribution() {
+async function buildDistribution() {
   compileSass();
   embedCssAssets();
+  await rollupStructuredClone();
   concatFiles();
 }
 
@@ -27,6 +28,28 @@ function compileSass() {
   const output = sass.compile('src/html/jasmine.scss');
   fs.writeFileSync('lib/jasmine-core/jasmine.css', output.css,
     {encoding: 'utf8'});
+}
+
+async function rollupStructuredClone() {
+  const { rollup } = require('rollup');
+  const { nodeResolve } = require('@rollup/plugin-node-resolve');
+
+  const bundle = await rollup({
+    input: 'scripts/lib/structuredClone.rollup.js',
+    external: [],
+    plugins: [nodeResolve()],
+  });
+
+  await bundle.write({
+    file: 'src/core/structuredClone.js',
+    format: 'iife',
+    indent: '  ',
+    generatedCode: {
+      constBindings: true,
+    },
+  });
+
+  await bundle.close();
 }
 
 function concatFiles() {

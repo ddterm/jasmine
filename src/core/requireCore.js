@@ -28,6 +28,11 @@ const getJasmineRequireObj = (function() {
 
     jRequire.base(j$, private$, globalThis);
     private$.util = jRequire.util(j$, private$);
+    private$.structuredClone = jRequire.structuredClone(
+      j$,
+      private$,
+      globalThis
+    );
     private$.errors = jRequire.errors();
     private$.formatErrorMsg = jRequire.formatErrorMsg(j$, private$);
     private$.AllOf = jRequire.AllOf(j$, private$);
