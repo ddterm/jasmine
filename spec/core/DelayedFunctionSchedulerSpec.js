@@ -320,7 +320,8 @@ describe('DelayedFunctionScheduler', function() {
       typeof process !== 'undefined' &&
       process.versions &&
       typeof process.versions.node === 'string';
-    if (NODE_JS) {
+    const GJS = globalThis.toString() === '[object GjsGlobal]';
+    if (NODE_JS || GJS) {
       pending('numeric timer ID conflicts only relevant for browsers.');
     }
     const nativeTimeoutId = setTimeout(function() {}, 100);
