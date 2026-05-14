@@ -243,17 +243,20 @@ callbacks to execute _before_ running the next one.
         return new Promise(resolve => void setImmediate(resolve));
       }
 
-      // MessageChannel ensures that setTimeout is not throttled to 4ms.
-      // https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#reasons_for_delays_longer_than_specified
-      // https://stackblitz.com/edit/stackblitz-starters-qtlpcc
-      // Note: This trick does not work in Safari, which will still throttle the setTimeout
-      const channel = new MessageChannel();
-      await new Promise(resolve => {
-        channel.port1.onmessage = resolve;
-        channel.port2.postMessage(undefined);
-      });
-      channel.port1.close();
-      channel.port2.close();
+      if (typeof MessageChannel !== 'undefined') {
+        // MessageChannel ensures that setTimeout is not throttled to 4ms.
+        // https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#reasons_for_delays_longer_than_specified
+        // https://stackblitz.com/edit/stackblitz-starters-qtlpcc
+        // Note: This trick does not work in Safari, which will still throttle the setTimeout
+        const channel = new MessageChannel();
+        await new Promise(resolve => {
+          channel.port1.onmessage = resolve;
+          channel.port2.postMessage(undefined);
+        });
+        channel.port1.close();
+        channel.port2.close();
+      }
+
       // setTimeout ensures that we interleave with other setTimeouts.
       await new Promise(resolve => {
         realTimingFunctions.setTimeout.call(global, resolve);
