@@ -2961,7 +2961,14 @@ describe('Env integration', function() {
     const specLevelError = new Error('spec level deprecation');
 
     // prevent deprecation from being displayed
-    spyOn(console, 'error');
+    try {
+      spyOn(console, 'error');
+    } catch (e) {
+      // console.error is read-only on GJS
+      expect(e.message).toContain(
+        'error is not declared writable or has no setter'
+      );
+    }
 
     env.addReporter(reporter);
 

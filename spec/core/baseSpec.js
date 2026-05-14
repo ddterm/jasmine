@@ -156,7 +156,15 @@ describe('base helpers', function() {
       if (typeof process !== 'undefined' && process.emitWarning) {
         spyOn(process, 'emitWarning'); // Node 22
       }
-      spyOn(console, 'error'); // Node <22
+
+      try {
+        spyOn(console, 'error'); // Node <22
+      } catch (e) {
+        // console.error is read-only on GJS
+        expect(e.message).toContain(
+          'error is not declared writable or has no setter'
+        );
+      }
 
       let id = setTimeout(f1, max);
       setTimeout(function() {

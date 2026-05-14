@@ -2,7 +2,15 @@
 describe('Deprecator', function() {
   describe('#deprecate', function() {
     beforeEach(function() {
-      spyOn(console, 'error');
+      try {
+        spyOn(console, 'error');
+      } catch (e) {
+        throwUnless(e.message).toContain(
+          'error is not declared writable or has no setter'
+        );
+
+        pending('console.error is not spyable in this environment');
+      }
     });
 
     it('logs the mesage without context when the runnable is the top suite', function() {
