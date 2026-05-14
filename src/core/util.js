@@ -87,7 +87,7 @@ getJasmineRequireObj().util = function(j$, private$) {
       // Reporter events are cloned internally via structuredClone, and it's
       // common for reporters (including jasmine-browser-runner's) to JSON
       // serialize them.
-      JSON.stringify(structuredClone(v));
+      JSON.stringify(private$.structuredClone(v));
     } catch (e) {
       throw new Error(`${msgPrefix} can't be cloned`, { cause: e });
     }

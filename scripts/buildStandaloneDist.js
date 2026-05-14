@@ -14,7 +14,7 @@ buildStandaloneDist().finally(function() {
 });
 
 async function buildStandaloneDist() {
-  buildDistribution();
+  await buildDistribution();
   const pkg = JSON.parse(fs.readFileSync('package.json'));
   compileSpecRunner(pkg.version);
   await zipStandaloneDist(pkg.version);

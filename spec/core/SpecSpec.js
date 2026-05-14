@@ -114,6 +114,10 @@ describe('Spec', function() {
     });
 
     it('throws if the value is not structured-cloneable', function() {
+      if (typeof structuredClone === 'undefined') {
+        pending('This test requires native structuredClone');
+      }
+
       const spec = new privateUnderTest.Spec({
         queueableFn: { fn: () => {} }
       });

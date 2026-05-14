@@ -53,4 +53,14 @@ export default defineConfig([{
     "no-debugger": "error",
     "no-console": "error",
   },
+}], [{
+  files: ["scripts/lib/structuredClone.rollup.js"],
+  languageOptions: {
+    sourceType: "module",
+  }
+}], [{
+  files: ["src/core/structuredClone.js"],
+  rules: {
+    curly: "off",
+  }
 }]);

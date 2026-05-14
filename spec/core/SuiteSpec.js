@@ -416,6 +416,10 @@ describe('Suite', function() {
     });
 
     it('throws if the value is not structured-cloneable', function() {
+      if (typeof structuredClone === 'undefined') {
+        pending('This test requires native structuredClone');
+      }
+
       const suite = new privateUnderTest.Suite({});
 
       expect(function() {
