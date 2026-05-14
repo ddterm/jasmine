@@ -380,7 +380,9 @@ describe('ExceptionFormatter', function() {
           x =>
             !x.match(/[\/\\]jasmine\.js:/) &&
             // Some Node 20 and 22 minors when running in parallel
-            !x.includes('process.processTicksAndRejections')
+            !x.includes('process.processTicksAndRejections') &&
+            // GJS internal frames
+            !x.includes('resource:///org/gnome/gjs/')
         );
 
         for (let i = 0; i < filteredLines.length; i++) {
