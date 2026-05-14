@@ -1,6 +1,11 @@
 describe('Env integration', function() {
   let env;
   const isBrowser = typeof window !== 'undefined';
+  const queueMicrotask =
+    globalThis.queueMicrotask ??
+    function(fn) {
+      Promise.resolve().then(fn);
+    };
 
   beforeEach(function() {
     specHelpers.registerIntegrationMatchers();
