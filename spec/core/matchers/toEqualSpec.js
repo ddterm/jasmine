@@ -704,6 +704,10 @@ describe('toEqual', function() {
     beforeEach(function() {
       this.nonBrowser = isNotRunningInBrowser();
       if (this.nonBrowser) {
+        if (typeof require === 'undefined') {
+          pending('This test requires jsdom');
+        }
+
         const JSDOM = require('jsdom').JSDOM;
         const dom = new JSDOM();
         jasmineUnderTest.getGlobal().Node = dom.window.Node;
