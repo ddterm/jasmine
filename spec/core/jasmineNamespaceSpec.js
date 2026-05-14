@@ -98,7 +98,7 @@ describe('The jasmine namespace', function() {
       'getGlobal'
     ]);
 
-    if (typeof window !== 'undefined') {
+    if (typeof document !== 'undefined') {
       // jasmine-html.js
       result.add('HtmlReporterV2');
       result.add('HtmlReporterV2Urls');

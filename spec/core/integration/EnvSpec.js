@@ -1,6 +1,6 @@
 describe('Env integration', function() {
   let env;
-  const isBrowser = typeof window !== 'undefined';
+  const isBrowser = typeof document !== 'undefined';
 
   beforeEach(function() {
     specHelpers.registerIntegrationMatchers();
