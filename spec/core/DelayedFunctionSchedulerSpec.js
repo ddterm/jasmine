@@ -325,6 +325,12 @@ describe('DelayedFunctionScheduler', function() {
     }
     const nativeTimeoutId = setTimeout(function() {}, 100);
 
+    if (typeof nativeTimeoutId !== 'number') {
+      pending(
+        'numeric timer ID conflicts only relevant for environments with numeric timer IDs.'
+      );
+    }
+
     const scheduler = new privateUnderTest.DelayedFunctionScheduler();
     const fn = jasmine.createSpy('fn');
 
