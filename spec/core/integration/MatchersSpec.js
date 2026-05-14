@@ -636,6 +636,12 @@ describe('Matchers (Integration)', function() {
   });
 
   describe('toHaveClass', function() {
+    beforeEach(function() {
+      if (!specHelpers.domHelpers) {
+        pending('This test requires DOM helpers');
+      }
+    });
+
     verifyPasses(function(env) {
       const el = specHelpers.domHelpers.createElementWithClassName('foo');
       env.expect(el).toHaveClass('foo');
@@ -648,6 +654,12 @@ describe('Matchers (Integration)', function() {
   });
 
   describe('toHaveClasses', function() {
+    beforeEach(function() {
+      if (!specHelpers.domHelpers) {
+        pending('This test requires DOM helpers');
+      }
+    });
+
     verifyPasses(function(env) {
       const el = specHelpers.domHelpers.createElementWithClassName(
         'foo bar baz'
