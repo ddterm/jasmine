@@ -3,11 +3,16 @@ describe('Deprecation (integration)', function() {
   let env;
 
   beforeEach(function() {
+    const descriptor = Object.getOwnPropertyDescriptor(console, 'error');
+    if (!(descriptor.writable || descriptor.set) && !descriptor.configurable) {
+      pending('console.error is not spyable in this environment');
+    }
+
     env = new privateUnderTest.Env();
   });
 
   afterEach(function() {
-    env.cleanup_();
+    env?.cleanup_();
   });
 
   it('reports a deprecation on the top suite', async function() {
