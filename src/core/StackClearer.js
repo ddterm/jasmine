@@ -151,9 +151,13 @@ getJasmineRequireObj().StackClearer = function(j$, private$) {
         global.navigator.userAgent
       );
 
-    if (NODE_JS) {
+    const GJS = global.toString() === '[object GjsGlobal]';
+
+    if (NODE_JS || GJS) {
       // Unlike browsers, Node doesn't require us to do a periodic setTimeout
       // so we avoid the overhead.
+      // GJS implementation of setTimeout wraps the callback in another JS
+      // function, which will be visible in stack. So avoid setTimeout.
       return nodeQueueMicrotaskImpl(global);
     } else if (SAFARI_OR_WIN_WEBKIT || !global.MessageChannel) {
       // queueMicrotask is dramatically faster than MessageChannel in Safari
